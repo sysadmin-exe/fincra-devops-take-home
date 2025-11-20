@@ -46,6 +46,6 @@ output "eks_cluster_security_group_id" {
 }
 
 output "eks_node_security_group_id" {
-  description = "Security group ID for EKS nodes"
-  value       = aws_security_group.eks_nodes.id
+  description = "Security group ID for Fincra hello-world pods"
+  value       = aws_security_group.hello_fincra.id  
 }
