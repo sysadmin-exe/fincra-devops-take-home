@@ -14,3 +14,5 @@ jobs:
       
       - name: Run CI tests
         uses: ./.github/actions/ci-test
+        with:
+          working_directory: app/hellofincra
