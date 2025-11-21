@@ -5,6 +5,8 @@ metadata:
   namespace: hellofincra
   labels:
     app: hellofincra
+  annotations:
+    eks.amazonaws.com/security-groups: "sg-xxxxxxxxx"  # Replace with fincra_hello-world security group ID
 spec:
   replicas: 3
   selector:

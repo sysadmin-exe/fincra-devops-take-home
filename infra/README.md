@@ -10,8 +10,17 @@ This directory contains the infrastructure as code (IaC) and configuration files
     * Prometheus for monitoring
     * AWS ALB Controller for ingress
 
+## Architecture
+![alt text](../docs/infra-arch.drawio.png "Architecture")
+
+## Security Considerations
+* Cluster API server and pods use different security groups since they serve different purposes
+* Fargate cannot have a security group attached to it so we are using pod security group policy to attach AWS security groups to the pod
+* Only OIDC IAM role solution is used
+* Cluster API server is encrypted to secure k8s resources
+
 ## Infra CICD Flow
-![alt text](docs/infra-cicd.png "Infra CICD")
+![alt text](../docs/infra-cicd.png "Infra CICD")
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -50,6 +59,8 @@ No modules.
 | [aws_iam_role_policy_attachment.eks_vpc_resource_controller](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.fargate_pod_execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_internet_gateway.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
+| [aws_kms_alias.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_alias) | resource |
+| [aws_kms_key.cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/kms_key) | resource |
 | [aws_nat_gateway.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway) | resource |
 | [aws_route_table.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
 | [aws_route_table.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
