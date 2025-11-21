@@ -1,8 +1,16 @@
 # EKS Cluster
 resource "aws_eks_cluster" "main" {
-  name     = local.cluster_name
-  role_arn = aws_iam_role.eks_cluster.arn
-  version  = "1.28"
+  name                      = local.cluster_name
+  role_arn                  = aws_iam_role.eks_cluster.arn
+  version                   = local.eks_version
+  enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+
+  encryption_config {
+    provider {
+      key_arn = aws_kms_key.cluster.arn
+    }
+    resources = ["secrets"]
+  }
 
   vpc_config {
     subnet_ids              = concat(aws_subnet.private[*].id, aws_subnet.public[*].id)
@@ -15,6 +23,16 @@ resource "aws_eks_cluster" "main" {
     aws_iam_role_policy_attachment.eks_cluster_policy,
     aws_iam_role_policy_attachment.eks_vpc_resource_controller,
   ]
+}
+
+resource "aws_kms_key" "cluster" {
+  description             = "KMS key for EKS cluster secrets encryption"
+  deletion_window_in_days = 10
+}
+
+resource "aws_kms_alias" "cluster" {
+  name          = "alias/${local.project_name}-eks-cluster-key"
+  target_key_id = aws_kms_key.cluster.key_id
 }
 
 # EKS Cluster IAM Role
