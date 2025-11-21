@@ -3,16 +3,16 @@
 This solution shows the deployment of EKS infrastructure for a simple python application. This cloudnative solution deploys the application using manifests yaml file with and ingress managed by AWS ALB Controller.
 
 ## Application Development
-The final idea is to always use GitOps which makes it easier to manage kubernetes resources. Tests have been added to the app as part of the CICD process. Application is managed in [app/hellofincra](app/hellofincra/) directory. This can be seen as a standalone repo in production scenarios.
+The final idea is to always use GitOps which makes it easier to manage kubernetes resources. Tests have been added to the app as part of the CICD process. Application is managed in [app/hellofincra](app/hellofincra/) directory. Changes to the application that get merged to main branch create a new tag in from of short SHA that will be used to update the manifest repo/directory.  This can be seen as a standalone repo in production scenarios.
 
-![alt text](docs/app-release.png "Infra CICD")
+![alt text](docs/app-release.png "App Release")
 
 ## Kubernetes
-In this solution, we are using only manifests files which has the commit of the application release as a docker tag which is deployed into the cluster. The resources have the following
+In this solution, we are using only manifests files which has the commit of the application release as a docker tag which is deployed into the cluster. It is assumed that Argocd is used the archieve the GitOps style of deployment where Argocd pulls changes from the [manifest repo](k8s) and updates the cluster. The resources have the following
 
 * Resource request and limits have been set to manage resource used by the pods
 * 3 replicas managed in a deployment for high availability
 * Ingress to manage routing to the application using an AWS application LB managed with kubernetes
 
 ## Infrastructure Deployment
-This has been documented [here](infra/README.md). Ideally, this is also a standalone repo managed by the DevOps Infra Team.
+This has been documented [here](infra/README.md). Ideally, this is also a standalone repo managed by the DevOps Infra Team. I

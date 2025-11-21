@@ -11,7 +11,7 @@ This directory contains the infrastructure as code (IaC) and configuration files
     * AWS ALB Controller for ingress
 
 ## Architecture
-![alt text](../docs/infra-arch.drawio.png "Architecture")
+![alt text](../docs/infra-arch.png "Architecture")
 
 ## Security Considerations
 * Cluster API server and pods use different security groups since they serve different purposes
